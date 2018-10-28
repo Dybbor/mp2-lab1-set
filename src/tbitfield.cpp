@@ -9,9 +9,11 @@
 
 TBitField::TBitField(int len)
 {
+	if (len < 0)
+		throw "Wrong lenght";
 	BitLen = len;
 	MemLen = BitLen / 32 + 1;
-		pMem= new TELEM[MemLen];
+	pMem= new TELEM[MemLen];
 	for (int i = 0; i < MemLen; i++)
 		pMem[i] = 0;
 }
@@ -77,7 +79,7 @@ int TBitField::GetBit(const int n) const // получить значение б
 		throw n;
 	int index = GetMemIndex(n);
 	TELEM mask = GetMemMask(n);
-	if (pMem[index] & mask==0)
+	if ((pMem[index] & mask) ==0)
 		return 0;
 	else 
 		return 1;
