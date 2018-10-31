@@ -216,9 +216,9 @@ istream &operator>>(istream &istr, TBitField &bf) // ввод
 	for (int i = 0; i < bf.BitLen; i++)
 		{
 			if (bf.GetBit(i) == 0)
-				ostr << 0;
+				ostr<< 0;
 			else
-				ostr << 1;
+				ostr<< 1;
 		}
 	return ostr;
 
