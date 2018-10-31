@@ -203,7 +203,7 @@ istream &operator>>(istream &istr, TBitField &bf) // ввод
 		else
 		{
 			for (i; i < bf.GetLength(); i++)
-				bf.GetBit(i);
+				bf.ClrBit(i);
 			break;
 		}
 	}
