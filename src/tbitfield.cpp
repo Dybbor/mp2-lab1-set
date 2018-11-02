@@ -12,7 +12,10 @@ TBitField::TBitField(int len)
 	if (len < 0)
 		throw "Wrong lenght";
 	BitLen = len;
-	MemLen = BitLen / 32 + 1;
+	if (BitLen % 32 == 0)
+		MemLen=BitLen/32;
+	else
+		MemLen = BitLen / 32 + 1;
 	pMem= new TELEM[MemLen];
 	for (int i = 0; i < MemLen; i++)
 		pMem[i] = 0;
@@ -109,9 +112,14 @@ int TBitField::operator==(const TBitField &bf) const // сравнение
 	if (BitLen != bf.BitLen)
 		return 0;
 	else
-		for (int i = 0; i < MemLen; i++)
+		{
+			for (int i = 0; i < MemLen-1; i++)
 			if (pMem[i] != bf.pMem[i])
 				return 0;
+			for(int i=(MemLen-1)*32;i<BitLen;i++)
+			if(GetBit(i)!=bf.GetBit(i))
+				return 0;
+		}
 	return 1;
 }
 
@@ -195,7 +203,7 @@ istream &operator>>(istream &istr, TBitField &bf) // ввод
 		else
 		{
 			for (i; i < bf.GetLength(); i++)
-				bf.GetBit(i);
+				bf.ClrBit(i);
 			break;
 		}
 	}
@@ -208,9 +216,9 @@ istream &operator>>(istream &istr, TBitField &bf) // ввод
 	for (int i = 0; i < bf.BitLen; i++)
 		{
 			if (bf.GetBit(i) == 0)
-				ostr << 0;
+				ostr<< 0;
 			else
-				ostr << 1;
+				ostr<< 1;
 		}
 	return ostr;
 
